@@ -1,0 +1,59 @@
+#include <Arduino.h>
+#include <Wire.h>
+
+
+int red = 13;
+int yellow = 12;
+int green = 11;
+int button = 7;
+int State = 0;// States : Red = 0 , Green = 1, Yellow = 2
+
+void setup() 
+{
+
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(button, INPUT);
+
+}
+void loop(){
+  
+    
+
+  if (digitalRead(button) == LOW) 
+  {  
+
+    State = State + 1; 
+    delay(500);   
+
+  }
+  
+ if (State == 0) 
+  {
+
+    digitalWrite(red, HIGH);
+    digitalWrite(yellow, LOW);
+    digitalWrite(green, LOW);
+
+  } 
+  else if (State == 1) 
+  {
+
+    digitalWrite(red, LOW);
+    digitalWrite(yellow, LOW);
+    digitalWrite(green, HIGH);
+
+  }
+   else if (State == 2) 
+  {
+
+    digitalWrite(red, LOW);
+    digitalWrite(yellow, HIGH);
+    digitalWrite(green, LOW);
+    delay(2000);
+    State = 0;
+
+  } 
+}
+
