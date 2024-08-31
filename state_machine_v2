@@ -1,0 +1,90 @@
+#include <Arduino.h>
+#include <Wire.h>
+
+
+int red = 13;
+int yellow = 12;
+int green = 11;
+int button = 7;
+
+enum State 
+{
+  RED,
+  GREEN,
+  YELLOW
+};
+
+State currentState = RED;
+State nextState = RED;
+
+void setup() 
+{
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(button, INPUT);
+
+  digitalWrite(red, HIGH);
+}
+
+void transition() 
+{
+  if (nextState != currentState) 
+  {
+    digitalWrite(red, LOW);
+    digitalWrite(green, LOW);
+    digitalWrite(yellow, LOW);
+
+    currentState = nextState;
+
+    switch (currentState) {
+      case RED:
+        digitalWrite(red, HIGH);
+        delay(200);
+        break;
+      case GREEN:
+        digitalWrite(green, HIGH);
+        delay(200);
+        break;
+      case YELLOW:
+        digitalWrite(yellow, HIGH);
+        delay(200);
+        break;
+    }
+  }
+}
+
+void loop() 
+{
+  
+  if (digitalRead(button) == LOW) 
+  {
+    switch (currentState) 
+    {
+      case RED:
+        nextState = GREEN;
+        delay(200);
+        break;
+      case GREEN:
+        nextState = YELLOW;
+        delay(200);
+        break;
+      case YELLOW:
+        nextState = RED;
+        delay(200);
+        break;
+    }
+  }
+    
+  if (currentState == YELLOW) 
+  {
+    delay(2000);
+    nextState = RED;
+  }
+
+  transition();
+}
+
+
+
+
